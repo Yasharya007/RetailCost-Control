@@ -21,7 +21,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(cors());
 
+// ROUTES
 app.use("/client",clientRoutes);
 app.use("/general",generalRoutes);
 app.use("/management",managementRoutes);
 app.use("/sales",salesRoutes);
+
+// MONGOOSE SETUP
+
+//Connect database function
+const connectDB=async()=>{
+    try{
+        const connectionInstance=await mongoose.connect(process.env.MONGO_URL)
+        console.log(`MongoDB connected!, DB HOST : ${connectionInstance.connection.host}`)
+    }catch(error){
+        console.log("MONGODB connection error",error);
+        process.exit(1);
+    }
+}
+
+// starting server
+const PORT=process.env.PORT || 8000
+connectDB()
+.then(()=>{
+    app.listen(PORT,()=>console.log(`Server has started on Port: ${PORT}`))
+}).catch((error)=>console.log(`${error} did not connect`))

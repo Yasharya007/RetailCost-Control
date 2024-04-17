@@ -10,6 +10,11 @@ import generalRoutes from "./routes/general.js"
 import managementRoutes from "./routes/management.js"
 import salesRoutes from "./routes/sales.js"
 
+//Data imports
+import User from "./models/User.js"
+import { dataUser } from "./data/index.js"
+
+
 // CONFIGURATION
 dotenv.config();
 const app=express();
@@ -45,4 +50,6 @@ const PORT=process.env.PORT || 8000
 connectDB()
 .then(()=>{
     app.listen(PORT,()=>console.log(`Server has started on Port: ${PORT}`))
+
+    // User.insertMany(dataUser);
 }).catch((error)=>console.log(`${error} did not connect`))

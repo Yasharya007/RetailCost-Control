@@ -1,6 +1,14 @@
+import MenuBar from "./components/MenuBar/MenuBar"
+import Main from "./components/Main/Main"
+
 function App() {
   return (
-    <div>hello</div>
+    <>
+      <div id="dashboard" className="flex"> 
+        <MenuBar/>
+        <Main/>
+      </div>
+    </>
   )
 }
 

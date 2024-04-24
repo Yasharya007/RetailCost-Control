@@ -5,7 +5,7 @@ import Customer from '../Customers/Customer';
 
 const Main = () => {
   return (
-    <div className='w-full bg-indigo-950 text-white'>
+    <div className='w-full bg-indigo-950 text-white h-screen'>
 
         <TopBar/>
         <Customer/>

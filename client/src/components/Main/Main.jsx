@@ -5,9 +5,10 @@ import Customer from '../Customers/Customer';
 
 const Main = () => {
   return (
-    <div className='w-full '>
+    <div className='w-full bg-indigo-950 text-white'>
 
         <TopBar/>
+        <Customer/>
 
     </div>
   )

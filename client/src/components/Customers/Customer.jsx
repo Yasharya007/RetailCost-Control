@@ -15,7 +15,7 @@ function Customer(){
     return(
         <>
         <div className="w-full bg-indigo-950 h-screen">
-            <div className="text-white text-4xl font-medium mt-11 ml-5">CUSTOMERS</div>
+            <div className="text-white text-4xl font-medium ml-5">CUSTOMERS</div>
             <div className=" text-gray-300 font-medium mt-1 ml-5 mb-7">List of Customers</div>
             {/* Table Div */}
             {/* <div className="ml-5 mr-5 bg-blue-950 text-xs h-4/5"> */}

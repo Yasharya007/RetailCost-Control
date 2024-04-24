@@ -26,7 +26,7 @@ function Customer(){
                             <div className="w-52 text-left">Occupation</div>
                             <div className="w-28 text-left">Role</div>
                 </div>
-            <div className="overflow-y-auto no-scrollbar h-4/5 ml-5 mr-5 bg-blue-950 text-xs">
+            <div className="overflow-y-auto no-scrollbar h-5/6 ml-5 mr-5 bg-blue-950 text-xs">
             <table className="text-white bg-indigo-500">
                     <tbody className="">
                     {

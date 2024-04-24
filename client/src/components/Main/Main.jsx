@@ -8,8 +8,8 @@ const Main = () => {
     <div className='w-full bg-indigo-950 text-white h-screen'>
 
         <TopBar/>
-        <div className="w-full bg-indigo-950 h-5/6">
-        <Customer/>
+        <div className="w-full h-5/6">
+        <Product/>
         </div>
 
     </div>

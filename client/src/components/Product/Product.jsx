@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 function Product(){
-    const [data,setdata]=useState([]);
+    const [data,setdata]=useState({});
     // function getdata(){
     //     axios.get("http://localhost:8000/client/products")
     // .then((resoponse)=>{
@@ -15,7 +15,7 @@ function Product(){
     return(
         <>
         <div className="w-full bg-indigo-950">
-            <div class="text-white text-4xl font-medium">PRODUCTS</div>
+            <div className="text-white text-4xl font-medium">PRODUCTS</div>
         </div>
         </>
     )

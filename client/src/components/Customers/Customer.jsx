@@ -1,5 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
+import Header from "../Header/Header.jsx";
+
 function Customer(){
     const [data,setdata]=useState([]);
     function getdata(){
@@ -14,11 +16,7 @@ function Customer(){
     useEffect(getdata,[]);
     return(
         <>
-        <div className="w-full bg-indigo-950 h-5/6">
-            <div className="text-white text-4xl font-medium ml-5">CUSTOMERS</div>
-            <div className=" text-gray-300 font-medium mt-1 ml-5 mb-7">List of Customers</div>
-            {/* Table Div */}
-            {/* <div className="ml-5 mr-5 bg-blue-950 text-xs h-4/5"> */}
+        <Header heading="CUSTOMERS" des="List of Customers"/>    
                 <div className="flex font-normal pl-2 text-white pt-4 h-12 ml-5 mr-5 bg-blue-950 text-xs">
                             <div className="w-60 text-left">ID</div>
                             <div className="w-40 text-left">Name</div>
@@ -30,15 +28,6 @@ function Customer(){
                 </div>
             <div className="overflow-y-auto no-scrollbar h-4/5 ml-5 mr-5 bg-blue-950 text-xs">
             <table className="text-white bg-indigo-500">
-                    {/* <thead className="flex font-normal pl-2 text-white pt-4 h-12 bg-blue-950">
-                    <div className="w-60 text-left">ID</div>
-                        <div className="w-40 text-left">Name</div>
-                        <div className=" w-56 text-left">Email</div>
-                        <div className="w-40 text-left">Phone Number</div>
-                        <div className="w-28 text-left">Country</div>
-                        <div className="w-52 text-left">Occupation</div>
-                        <div className="w-28 text-left">Role</div>
-                    </thead> */}
                     <tbody className="">
                     {
                         data.map((obj,index)=>(
@@ -57,8 +46,6 @@ function Customer(){
                     
                 </table>
             </div>
-               
-        </div>
         </>
     )
 }

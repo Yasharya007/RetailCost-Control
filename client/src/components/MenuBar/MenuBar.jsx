@@ -14,7 +14,7 @@ const menuBar = () => {
 
 
   return (
-    <div className={`h-screen w-60 bg-blue-950  pt-10`}>
+    <div className={`h-screen w-60 bg-blue-950  pt-10 z-10`}>
       <div className="inline-flex bg-yellow-400 p-3 w-full align-middle" >
         <IoHome className='mr-4 ml-6 mt-0.5'/> 
         <h1 className="text-sm font-medium">Dashboard</h1>

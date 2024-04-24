@@ -1,9 +1,16 @@
 import React from 'react'
+import TopBar from "../TopBar/TopBar";
+import Product from '../Product/Product';
+import Customer from '../Customers/Customer';
 
-const main = () => {
+const Main = () => {
   return (
-    <div className='h-screen'>main</div>
+    <div className='w-full '>
+
+        <TopBar/>
+
+    </div>
   )
 }
 
-export default main
+export default Main

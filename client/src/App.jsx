@@ -1,12 +1,14 @@
-import CustomerPage from "./pages/CustomerPage"
-import ProductPage from "./pages/ProductPage"
+import CustomerPage from "./pages/CustomerPage.jsx"
+import ProductPage from "./pages/ProductPage.jsx"
+import GeographyPage from "./pages/GeographyPage.jsx"
 
 function App() {
   return (
     <>
       <div id="dashboard" className="flex"> 
-        <CustomerPage/>
+        {/* <CustomerPage/> */}
         {/* <ProductPage/> */}
+        <GeographyPage/>
       </div>
     </>
   )

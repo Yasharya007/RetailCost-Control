@@ -11,7 +11,7 @@ const TopBar = () => {
     setInputValue(e.target.value)
   }
   return (
-    <div className='h-16 w-full pl-5 pr-10 flex items-center justify-between'>
+    <div className='h-16 w-full pl-5 pr-10 flex items-center justify-between text-white'>
       <div id="left" className='flex items-center'>
         <RxHamburgerMenu className='text-2xl mr-5 cursor-pointer'/>
         <div id="input" className='flex relative'>

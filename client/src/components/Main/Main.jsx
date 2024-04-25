@@ -9,7 +9,7 @@ const Main = () => {
 
         <TopBar/>
         <div className="w-full h-5/6">
-        <Product/>
+          <Product/>
         </div>
 
     </div>

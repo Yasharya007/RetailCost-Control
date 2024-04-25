@@ -7,9 +7,11 @@ const CustomerPage = () => {
   return (
     <>
         <MenuBar/>
-        <div className='flex-row bg-indigo-950'>
+        <div className='w-full bg-indigo-950 text-white h-screen'>
             <TopBar/>
-            <Customer/>
+            <div className='w-full h-[85%]'>
+                <Customer/>
+            </div>
         </div>
     </>
   )

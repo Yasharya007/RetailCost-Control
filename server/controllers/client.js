@@ -46,7 +46,7 @@ export const getTransactions=async(req,res)=>{
             // const sortParsed=JSON.parse(sort);
             const sortParsed=sort
             const sortFormat={
-                [sortParsed.field]:sortParsed.sort="asc"?1:-1
+                [sortParsed.field]:sortParsed.sort==="asc"?1:-1
             }
             return sortFormat
         }
@@ -61,7 +61,7 @@ export const getTransactions=async(req,res)=>{
         const total=await Transection.countDocuments({
             name:{$regex:search,$options:"i"}
         });
-        const totalTransactions=Transection.count();
+
         res.status(200).json({
             transactions,
             total,

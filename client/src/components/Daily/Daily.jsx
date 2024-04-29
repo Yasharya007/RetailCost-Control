@@ -2,72 +2,99 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
-
-function Overview(){
-    // const [statdata,setStatdata]=useState({});
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+function Daily(){
+    const [statdata,setStatdata]=useState([]);
     // const [salesLine,setSalesLine]=useState([]);
-    const[salesLinef,setSalesLine]=useState([]);
-    const[unitLinef,setUnitLine]=useState([]);
-    const[mode,setmode]=useState("sales")
-    console.log(mode);
+    const[line,setLine]=useState([]);
+    const[startDate,setStartDate]=useState(new Date("2021-01-01"));
+    const[endDate,setEndDate]=useState(new Date("2021-02-01"));
     function getdata(){
         axios.get("http://localhost:8000/sales/sales")
     .then((response)=>{
         console.log(response.data);
-
-
-        const info =[{
-            id:"sales",
-            color:"white",
-            data:[]
-        }];
-        const info2=[{
-            id:"units",
-            color:"white",
-            data:[]
-        }]
-        let myData=[];
-        let myDataunit=[]
-        let total=0;
-        let totalunit=0
-        let recv=response.data.monthlyData;
-        console.log(recv)
-        recv.forEach((element) => {
-            total+=element.totalSales;
-            totalunit+=element.totalUnits;
-            myData.push({
-                x:element.month,
-                y:total
-            })
-            myDataunit.push({
-                x:element.month,
-                y:totalunit
-            })
-        });
-        info[0].data=myData;
-        info2[0].data=myDataunit;
-        console.log(info);
-        setSalesLine(info);
-        setUnitLine(info2);
+        setStatdata(response.data.dailyData);
     }).catch((error)=>{
         console.log(error);
     })
     }
+    function printGraph(){
+        const info ={
+            id:"sales",
+            color:"white",
+            data:[]
+        };
+        const info2={
+            id:"units",
+            color:"white",
+            data:[]
+        }
+        let myData=[];
+        let myDataunit=[]
+        let recv=statdata;
+        console.log(recv)
+        // let sday=startDate.slice(8,10);
+        // let smonth=startDate.slice(5,7);
+        // let eday=endDate.slice(8,10);
+        // let emonth=endDate.slice(5,7);
+        // console.log(sday);
+        // console.log(smonth);
+        recv.forEach((element) => {
+            let currdate=new Date(element.date)
+            // console.log(startDate)
+            // let dt=element.date;
+            // let dtday=dt.slice(8,10);
+            // let dtmonth=dt.slice(5,7);
+            // (dtmonth>smonth && dtmonth<emonth)|| (dtmonth===smonth && dtday>=sday) || (dtmonth==emonth && dtday<=eday)
+            if( currdate>=startDate && currdate<=endDate){
+                 myData.push({
+                x:element.date,
+                // x:"",
+                y:element.totalSales
+            })
+            myDataunit.push({
+                x:element.date,
+                // x:"",
+                y:element.totalUnits
+            })
+            }
+           
+        });
+        info.data=myData;
+        info2.data=myDataunit;
+        console.log(info);
+        setLine([info,info2]);
+    }
     useEffect(getdata,[]);
+    useEffect(printGraph,[startDate,endDate,line])
     return(
         <>
-        <Header heading="OVERVIEW" des="Total units and total revenue of the year"/>    
-        <div className="ml-5">
-        <select className=" bg-blue-950 border-solid border-2 border-white" onChange={(e)=>setmode(e.target.value)}>
-            <option value="sales">Sales</option>
-            <option value="units">Units</option>
-        </select>
+        <Header heading="DAILY SALES" des="Get your daily sales data"/>    
+        <div className="ml-5 flex gap-3 text-black">
+            <div className="text-white">Start Date : </div>
+        <DatePicker
+        selected={startDate}
+        onChange={(date) => {setStartDate(date);console.log(date)}}
+        selectsStart
+        startDate={startDate}
+        endDate={endDate}
+      />
+      <div className="text-white">End Date :</div>
+      <DatePicker
+        selected={endDate}
+        onChange={(date) => setEndDate(date)}
+        selectsEnd
+        startDate={startDate}
+        endDate={endDate}
+        minDate={startDate}
+      />
         </div>
-        <div className='h-5/6  w-[80%] ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar'>
+        <div className='h-5/6  w-[78%] ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar'>
             {
-                salesLinef?(
+                line?(
                     <ResponsiveLine
-        data={mode==="sales"?salesLinef:unitLinef}
+        data={line}
         theme={{
             axis:{
                 domain:{
@@ -101,7 +128,7 @@ function Overview(){
                 }
             }
         }}
-        margin={{ top: 20, right: 50, bottom: 50, left: 70 }}
+        margin={{ top: 60, right: 50, bottom: 50, left: 90 }}
         xScale={{ type: 'point' }}
         yScale={{
             type: 'linear',
@@ -117,8 +144,8 @@ function Overview(){
         axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Month',
+            tickRotation: 90,
+            legend: '',
             legendOffset: 36,
             legendPosition: 'middle',
             truncateTickAt: 0
@@ -127,7 +154,7 @@ function Overview(){
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: mode==="sales"?'Total Revenue':'Total Units',
+            legend: "",
             legendOffset: -60,
             legendPosition: 'middle',
             truncateTickAt: 0
@@ -143,7 +170,7 @@ function Overview(){
         useMesh={true}
         legends={[
             {
-                anchor: 'bottom-right',
+                anchor: 'top-right',
                 direction: 'column',
                 justify: false,
                 translateX: 30,
@@ -175,4 +202,4 @@ function Overview(){
     )
 }
 
-export default Overview
+export default Daily

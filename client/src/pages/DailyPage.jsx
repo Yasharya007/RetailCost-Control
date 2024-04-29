@@ -1,20 +1,20 @@
 import React from 'react'
 import MenuBar from '../components/MenuBar/MenuBar'
 import TopBar from '../components/TopBar/TopBar'
-import Overview from '../components/Overview/Overview'
+import Daily from '../components/Daily/Daily'
 
-const OverviewPage = () => {
+const DailyPage = () => {
   return (
     <>
         <MenuBar/>
         <div className='w-full bg-indigo-950 text-white h-screen'>
             <TopBar/>
-            <div className='w-full h-[90%]'>
-                <Overview/>
+            <div className='w-full h-[85%]'>
+                <Daily/>
             </div>
         </div>
     </>
   )
 }
 
-export default OverviewPage
+export default DailyPage

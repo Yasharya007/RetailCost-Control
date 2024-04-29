@@ -58,11 +58,10 @@ export const getTransactions=async(req,res)=>{
             ]
         })
         .sort(sortFormat).skip(page*pageSize).limit(pageSize);
-
         const total=await Transection.countDocuments({
             name:{$regex:search,$options:"i"}
         });
-
+        const totalTransactions=Transection.count();
         res.status(200).json({
             transactions,
             total,

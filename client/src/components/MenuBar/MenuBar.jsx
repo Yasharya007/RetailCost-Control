@@ -14,7 +14,7 @@ const menuBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
-    console.log(currentPath);
+    // console.log(currentPath);
   
 
   return (
@@ -35,13 +35,13 @@ const menuBar = () => {
           <h3 className="text-sm"> Product</h3>
         </div>
 
-        <div className={`customer flex cursor-pointer p-2 pl-10   ${currentPath === '/customer' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/customer")}>
+        <div className={`customer flex cursor-pointer p-2 pl-10 ${currentPath === '/customer' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/customer")}>
           <IoIosPeople className=' mt-0.5 mr-10'/>
           <h3 className='text-sm'> Customers</h3>
         </div>
 
-        <div className="transaction flex cursor-pointer p-2 pl-10  ">
-          <IoNewspaperOutline className=' mt-0.5 mr-10'/>
+        <div className={`transaction flex cursor-pointer p-2 pl-10 ${currentPath === '/transaction' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/transaction")}>
+          <IoNewspaperOutline className=' mt-0.5 mr-10' />
           <h3 className='text-sm'> Transactions</h3>
         </div>
 

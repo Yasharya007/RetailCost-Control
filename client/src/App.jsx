@@ -1,6 +1,8 @@
 import CustomerPage from "./pages/CustomerPage.jsx"
 import ProductPage from "./pages/ProductPage.jsx"
 import GeographyPage from "./pages/GeographyPage.jsx"
+import OverviewPage from "./pages/OverviewPage.jsx"
+import DailyPage from "./pages/DailyPage.jsx"
 import TransactionPage from "./pages/TransactionPage.jsx"
 import { Route,Routes } from "react-router-dom"
 
@@ -13,6 +15,8 @@ function App() {
         <Route path="/product" element={<ProductPage/>}/>
         <Route path="/customer" element={<CustomerPage/>}/>
         <Route path="/geography" element={<GeographyPage/>}/>
+        <Route path="/overview" element={<OverviewPage/>}/>
+        <Route path="/daily" element={<DailyPage/>}/>
         <Route path="/transaction" element={<TransactionPage/>}/>
       </Routes>
         {/* <CustomerPage/> */}

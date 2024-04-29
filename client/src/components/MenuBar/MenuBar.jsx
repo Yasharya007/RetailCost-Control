@@ -57,12 +57,12 @@ const menuBar = () => {
       <div className="sales text-white mt-9">
         <h2 className='mb-3 pl-10 text-sm'>sales</h2>
 
-        <div className="overview flex cursor-pointer p-2 pl-10  ">
+        <div className={`overview flex cursor-pointer p-2 pl-10   ${currentPath === '/overview' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/overview")}>
           <GrView className=' mt-0.5 mr-10'/>
           <h3 className='text-sm'> Overview</h3>
         </div>
 
-        <div className="daily flex cursor-pointer p-2 pl-10  ">
+        <div className={`daily flex cursor-pointer p-2 pl-10   ${currentPath === '/daily' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/daily")}>
           <IoMdCalendar className=' mt-0.5 mr-10'/>
           <h3 className='text-sm'> Daily</h3>
         </div>

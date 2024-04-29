@@ -3,6 +3,8 @@ import axios from "axios";
 import Header from "../Header/Header.jsx";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { RiDownload2Fill } from "react-icons/ri";
+import { CSVLink } from "react-csv";
 
 const Transactions = () => {
   const [data, setdata] = useState([]);
@@ -79,7 +81,8 @@ const Transactions = () => {
             <div className="w-56 text-left">User ID</div>
             <div className="w-56 text-left">Created At</div>
             <div className="w-32 text-left">No of Product</div>
-            <div className="w-40 text-left flex cursor-pointer" onClick={handle_cost}>Cost <MdKeyboardArrowDown className="text-lg ml-2"/></div>
+            <div className="w-20 text-left flex cursor-pointer" onClick={handle_cost}>Cost <MdKeyboardArrowDown className="text-lg ml-2"/></div>
+            <CSVLink data={data}><div className="flex gap-1 text-base"><RiDownload2Fill /><div className=" -mt-1">export</div></div></CSVLink>
           </div>
 
           <div className="overflow-y-auto no-scrollbar h-[70%] ml-5 mr-5  text-xs ">

@@ -1,11 +1,13 @@
+import { Route,Routes } from "react-router-dom"
+
 import CustomerPage from "./pages/CustomerPage.jsx"
 import ProductPage from "./pages/ProductPage.jsx"
 import GeographyPage from "./pages/GeographyPage.jsx"
 import OverviewPage from "./pages/OverviewPage.jsx"
 import DailyPage from "./pages/DailyPage.jsx"
 import TransactionPage from "./pages/TransactionPage.jsx"
-import { Route,Routes } from "react-router-dom"
 import Monthlypage from "./pages/MonthlyPage.jsx"
+import BreakDownPage from "./pages/BreakDownPage.jsx"
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/daily" element={<DailyPage/>}/>
         <Route path="/transaction" element={<TransactionPage/>}/>
         <Route path="/monthly" element={<Monthlypage/>}/>
+        <Route path="/breakdown" element={<BreakDownPage/>}/>
       </Routes>
         {/* <CustomerPage/> */}
         {/* <ProductPage/> */}

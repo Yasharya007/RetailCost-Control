@@ -4,6 +4,7 @@ import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 function Daily(){
     const [statdata,setStatdata]=useState([]);
     // const [salesLine,setSalesLine]=useState([]);
@@ -15,12 +16,12 @@ function Daily(){
     .then((response)=>{
         console.log(response.data);
         setStatdata(response.data.dailyData);
-    }).catch((error)=>{
+    }).catch((error) => {
         console.log(error);
     })
     }
     function printGraph(){
-        const info ={
+        const info = {
             id:"sales",
             color:"white",
             data:[]

@@ -22,7 +22,7 @@ function Geography() {
     <>
     <Header heading="GEOGRAPHY" des="Find where your customers are located"/>
     <div className='h-5/6  w-[80%] ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar border-solid border-2 border-white'>
-        {data?(
+        {data.length>0?(
             <ResponsiveChoropleth
             data={data}
             theme={{
@@ -96,7 +96,11 @@ function Geography() {
                 }
             ]}
         />
-        ):""}
+        ):(
+            <div className="w-full h-[50%] text-3xl flex items-center justify-center">
+            Map is Loading ...
+          </div>
+        )}
     </div>
     </>
   )

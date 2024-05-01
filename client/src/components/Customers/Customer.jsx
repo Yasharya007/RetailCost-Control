@@ -29,24 +29,34 @@ function Customer() {
         <div className="w-28 text-left">Role</div>
       </div>
       <div className="overflow-y-auto no-scrollbar h-5/6 ml-5 mr-5 bg-blue-950 text-xs">
-        <table className="text-white bg-indigo-500">
-          <tbody className="">
-            {data.map((obj, index) => (
-              <tr
-                className="flex font-normal pl-2 pt-2 pb-2 hover:bg-slate-400"
-                key={index}
-              >
-                <td className="w-60 text-left">{obj._id}</td>
-                <td className="w-40 text-left">{obj.name}</td>
-                <td className="w-56 text-left">{obj.email}</td>
-                <td className="w-40 text-left">{obj.phoneNumber}</td>
-                <td className="w-28 text-left">{obj.country}</td>
-                <td className="w-52 text-left">{obj.occupation}</td>
-                <td className="w-28 text-left">{obj.role}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {
+          data.length>0?(
+            <table className="text-white bg-indigo-500">
+            <tbody className="">
+              {
+              data.map((obj, index) => (
+                <tr
+                  className="flex font-normal pl-2 pt-2 pb-2 hover:bg-slate-400"
+                  key={index}
+                >
+                  <td className="w-60 text-left">{obj._id}</td>
+                  <td className="w-40 text-left">{obj.name}</td>
+                  <td className="w-56 text-left">{obj.email}</td>
+                  <td className="w-40 text-left">{obj.phoneNumber}</td>
+                  <td className="w-28 text-left">{obj.country}</td>
+                  <td className="w-52 text-left">{obj.occupation}</td>
+                  <td className="w-28 text-left">{obj.role}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          ):(
+            <div className="w-full h-[50%] text-3xl flex items-center justify-center">
+              Loading ...
+                 </div>
+          )
+        }
+        
       </div>
     </>
   );

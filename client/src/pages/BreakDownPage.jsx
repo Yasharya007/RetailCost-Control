@@ -1,7 +1,7 @@
 import React from 'react'
 import MenuBar from '../components/MenuBar/MenuBar'
 import TopBar from '../components/TopBar/TopBar'
-import BreakDown from '../components/BreakDown/BreakDown'
+import BreakDown from '../components/Breakdown/BreakDown'
 
 const BreakDownPage = () => {
   return (

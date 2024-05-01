@@ -17,7 +17,7 @@ function Product(){
         <>
         <Header heading="PRODUCTS" des="See your list of products"/> 
         <div className="h-5/6 ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar">
-            {
+            {  data.length>0?(
                 data.map((obj,index)=>(
                     <div className="bg-blue-950 h-44 w-72 flex-col pl-3 pt-3" key={index}>
                         <div className=" text-gray-500 text-xs font-medium mb-1.5">{obj.category}</div>
@@ -27,6 +27,12 @@ function Product(){
                         <div className="text-xs">SEE MORE</div>
                     </div>
                 ))
+            ):(
+                <div className="w-full h-[50%] text-3xl flex items-center justify-center">
+            Loading ...
+               </div>
+            )
+                
             }
             {/* <div className="bg-blue-950 h-44 w-72 flex-col pl-3 pt-3">
                 <div className=" text-gray-500 text-xs font-medium mb-1.5">accessories</div>

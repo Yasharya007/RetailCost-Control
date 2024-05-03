@@ -4,9 +4,9 @@ import { IoIosArrowForward,IoIosPeople,IoMdCalendar } from "react-icons/io";
 import { FaShoppingCart,FaRegCalendarAlt,FaChartPie } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { GrView } from "react-icons/gr";
-import { RiAdminFill } from "react-icons/ri";
-import { BsGraphUpArrow } from "react-icons/bs";
 import { useNavigate,useLocation } from 'react-router-dom';
+import { BiSolidCartAdd } from "react-icons/bi";
+import { GrMoney } from "react-icons/gr";
 
 
 
@@ -83,14 +83,14 @@ const menuBar = () => {
       <div className="Admin text-white mt-9">
         <h2 className='mb-3 pl-10 text-sm'>Management</h2>
 
-        <div className="admin flex cursor-pointer p-2 pl-10  ">
-          <RiAdminFill className=' mt-0.5 mr-10'/>
-          <h3 className='text-sm'> Admin</h3>
+        <div className={`admin flex cursor-pointer p-2 pl-10 ${currentPath === '/addproduct' ? ' bg-yellow-400 text-black' : ''} flex items-center`} onClick={() => navigate("/addproduct")}>
+          <BiSolidCartAdd className='text-2xl mt-0.5 mr-8'/>
+          <h3 className='text-sm'> Add Product</h3>
         </div>
 
-        <div className="performance flex cursor-pointer p-2 pl-10  ">
-          <BsGraphUpArrow className='mt-0.5 mr-10'/>
-          <h3 className='text-sm'> Performance</h3>
+        <div className={`performance flex cursor-pointer p-2 pl-10 ${currentPath === '/addtransaction' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/addtransaction")}>
+          <GrMoney className='mt-0.5 mr-10'/>
+          <h3 className='text-sm'> Add Transaction</h3>
         </div>
       </div>
     </div>

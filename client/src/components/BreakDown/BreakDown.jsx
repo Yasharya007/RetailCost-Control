@@ -40,13 +40,13 @@ useEffect(getdata,[]);
         "#edcece",
         "#e8d34a"
       ],
-      hoverOffset: 4
+      hoverOffset: 30
     }]
   };
   return (
     <div className="h-full">
       <Header heading="BREAKDOWN" des="Breakdown of Sales By category" />
-      <div className="w-full h-[80%] flex justify-center">
+      <div className="w-full h-[80%] flex justify-center ">
         <Doughnut option={option} data={data}/>
       </div>
     </div>

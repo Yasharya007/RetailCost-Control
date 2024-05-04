@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import OverallStat from "../models/OverallStat.js";
 import Transection from "../models/Transection.js";
-
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const getUser=async(req,res)=>{
     try{
@@ -9,6 +9,55 @@ export const getUser=async(req,res)=>{
         const user=await User.findById(id);
         res.status(200).json(user);
     }catch(error){
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const registerUser=async(req,res)=>{
+    try {
+        // get user details fromm frontend
+    const {name,email,password}=req.body;
+    console.log(req.body);
+    // console.log(name);
+    if (
+        !name || !email || !password
+    ) {
+        throw new Error("All fields are required");
+    }
+
+    const existedUser=await User.findOne({
+        $or:[{email}]
+    })
+    if(existedUser){throw new Error("User exist");}
+
+    const avatarLocalPath=req.files?.avatar[0]?.path;
+    console.log(avatarLocalPath)
+    if(!avatarLocalPath)throw new Error("Avatar file is req");
+
+    // upload them to cloudinary
+    const avatar=await uploadOnCloudinary(avatarLocalPath);
+    console.log(avatar)
+    const user=await User.create({
+        name,
+        avatar:avatar.url,
+        email,
+        password
+     })
+
+     const createdUser= await User.findById(user._id).select(
+        "-password -refreshToken"
+    );
+
+    // check for user creation
+    if(!createdUser){
+        throw new Error("Something went wrong while creating user")
+    }
+    res.status(200).json({
+        message:"User created successfully",
+        user:createdUser
+    })
+
+    } catch (error) {
         res.status(404).json({message: error.message})
     }
 }

@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
 
-function Overview(){
+function Overview({dashboard=false}){
     // const [statdata,setStatdata]=useState({});
     // const [salesLine,setSalesLine]=useState([]);
     const[salesLinef,setSalesLine]=useState([]);
     const[unitLinef,setUnitLine]=useState([]);
     const[mode,setmode]=useState("sales")
-    console.log(mode);
+    // console.log(mode);
     function getdata(){
         axios.get("http://localhost:8000/sales/sales")
     .then((response)=>{
-        console.log(response.data);
+        // console.log(response.data);
 
 
         const info =[{
@@ -56,14 +56,16 @@ function Overview(){
     useEffect(getdata,[]);
     return(
         <>
-        <Header heading="OVERVIEW" des="Total units and total revenue of the year"/>    
-        <div className="ml-5">
+        {
+            !dashboard?( <Header heading="OVERVIEW" des="Total units and total revenue of the year"/> ):("")
+        }
+        <div className={`ml-5 ${dashboard?'hidden':''}`}>
         <select className=" bg-blue-950 border-solid border-2 border-white" onChange={(e)=>setmode(e.target.value)}>
             <option value="sales">Sales</option>
             <option value="units">Units</option>
         </select>
         </div>
-        <div className='h-5/6  w-[80%] ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar'>
+        <div className={`${dashboard?'h-full w-[100%]':'h-5/6  w-[80%]'} ml-5 mr-5 flex gap-5 flex-wrap overflow-y-auto no-scrollbar`}>
             {
                 salesLinef?(
                     <ResponsiveLine
@@ -115,10 +117,15 @@ function Overview(){
         axisTop={null}
         axisRight={null}
         axisBottom={{
+            format:(v)=>{
+                if(dashboard){
+                    return v.slice(0,3);
+                }else return v
+            },
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Month',
+            legend: dashboard?"":'Month',
             legendOffset: 36,
             legendPosition: 'middle',
             truncateTickAt: 0
@@ -127,7 +134,8 @@ function Overview(){
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: mode==="sales"?'Total Revenue':'Total Units',
+            tickValues:5,
+            legend: dashboard?"": mode==="sales"?'Total Revenue':'Total Units',
             legendOffset: -60,
             legendPosition: 'middle',
             truncateTickAt: 0
@@ -139,6 +147,8 @@ function Overview(){
         pointBorderWidth={3}
         pointBorderColor={{ from: 'serieColor' }}
         pointLabelYOffset={-12}
+        enableArea={dashboard?true:false}
+        areaOpacity={0.3}
         enableTouchCrosshair={true}
         useMesh={true}
         legends={[
@@ -152,7 +162,7 @@ function Overview(){
                 itemDirection: 'left-to-right',
                 itemWidth: 80,
                 itemHeight: 20,
-                itemOpacity: 0.75,
+                itemOpacity:dashboard?0:0.75,
                 symbolSize: 12,
                 symbolShape: 'circle',
                 symbolBorderColor: 'rgba(0, 0, 0, .5)',

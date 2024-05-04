@@ -6,7 +6,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as Chartjs, Tooltip, Legend, ArcElement} from 'chart.js';
 
 Chartjs.register(Tooltip, Legend ,ArcElement);
-const BreakDown = () => {
+const BreakDown = ({dashboard=false}) => {
   const [categoryData,setCategoryData]=useState({
     shoes:0, 
     clothing: 0, 
@@ -17,7 +17,7 @@ const BreakDown = () => {
   function getdata(){
     axios.get("http://localhost:8000/sales/sales")
 .then((response)=>{
-    console.log(response.data.salesByCategory);
+     //console.log(response.data.salesByCategory);
     setCategoryData(response.data.salesByCategory);
 }).catch((error)=>{
     console.log(error);
@@ -45,8 +45,11 @@ useEffect(getdata,[]);
   };
   return (
     <div className="h-full">
-      <Header heading="BREAKDOWN" des="Breakdown of Sales By category" />
-      <div className="w-full h-[80%] flex justify-center ">
+      {
+        !dashboard?(<Header heading="BREAKDOWN" des="Breakdown of Sales By category" />):("")
+      }
+      
+      <div className={`flex justify-center ${dashboard?'h-[95%]':'h-[80%] w-full'}`}>
         <Doughnut option={option} data={data}/>
       </div>
     </div>

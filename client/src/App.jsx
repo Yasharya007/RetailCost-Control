@@ -9,13 +9,15 @@ import Monthlypage from "./pages/MonthlyPage.jsx";
 import BreakDownPage from "./pages/BreakDownPage.jsx";
 import AddProductPage from "./pages/AddProductPage.jsx";
 import AddTransactionPage from "./pages/AddTransactionPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
 
 function App() {
   return (
     <>
       <div id="dashboard" className="flex">
         <Routes>
-          <Route path="/" element={<ProductPage />} />
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/geography" element={<GeographyPage />} />

@@ -18,8 +18,8 @@ const menuBar = () => {
   
 
   return (
-    <div className={`h-screen w-60 bg-blue-950  pt-10 z-10`}>
-      <div className="inline-flex bg-yellow-400 p-3 w-full align-middle" >
+    <div className={`h-screen w-60 bg-blue-950 text-white pt-10 z-10`}>
+      <div className={`inline-flex p-3 w-full  cursor-pointer font-medium align-middle ${currentPath === '/' || currentPath==='/dashboard'  ? ' bg-yellow-400 text-black' :''}`} onClick={() => navigate("/dashboard")} >
         <IoHome className='mr-4 ml-6 mt-0.5'/> 
         <h1 className="text-sm font-medium">Dashboard</h1>
         <IoIosArrowForward className='text-2xl ml-20'/>
@@ -30,7 +30,7 @@ const menuBar = () => {
       <div className="client  text-white mt-9">
         <h2 className='mb-3 pl-10 text-sm'>Client Facing</h2>
 
-        <div className={`product flex cursor-pointer p-2 pl-10   ${currentPath === '/' || currentPath==='/product'  ? ' bg-yellow-400 text-black' :''}`} onClick={() => navigate("/product")}>
+        <div className={`product flex cursor-pointer p-2 pl-10   ${currentPath==='/product'  ? ' bg-yellow-400 text-black' :''}`} onClick={() => navigate("/product")}>
           <FaShoppingCart className=' mr-10 mt-0.5'/>
           <h3 className="text-sm"> Product</h3>
         </div>

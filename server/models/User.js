@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
-
+import dotenv from "dotenv"
+dotenv.config({
+  path:'./.env'
+})
 const UserSchema=new mongoose.Schema(
     {
-        name:{
+        username:{
             type:String,
             required:true,
             min:2,
@@ -35,17 +38,12 @@ const UserSchema=new mongoose.Schema(
         phoneNumber:{
             type:String,
         },
-        transactions:{
-            type:Array,
-        },
         avatar:{
             type:String,
         },
-        role:{
-            type:String,
-            enum:["user","admin","superadmin"],
-            default:"admin"
-        },
+        refreshToken:{
+            type:String
+        }
     },
     {timestamps:true}
 )
@@ -67,7 +65,6 @@ UserSchema.methods.generateAccessToken=function(){
             _id:this._id,
             email:this.email,
             username:this.username,
-            fullname:this.fullname
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -81,7 +78,6 @@ UserSchema.methods.generateRefreshToken=function(){
             _id:this._id,
             email:this.email,
             username:this.username,
-            fullname:this.fullname
         },
         process.env.REFRESH_TOKEN_SECRET,
         {

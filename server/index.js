@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
+import cookieParser from "cookie-parser";
 import helmet from "helmet"
 import morgan from "morgan"
 import clientRoutes from "./routes/client.js"
@@ -29,6 +30,7 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 // app.use(morgan("common"))
 app.use(cors());
 app.use(express.static("public"))
+app.use(cookieParser())
 
 // ROUTES
 app.use("/client",clientRoutes);

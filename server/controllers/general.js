@@ -2,6 +2,20 @@ import User from "../models/User.js";
 import OverallStat from "../models/OverallStat.js";
 import Transection from "../models/Transection.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import jwt from "jsonwebtoken"
+
+const generateAccessAndRefreshTokens=async(userId)=>{
+    try{
+        const user=await User.findById(userId);
+        const accessToken=user.generateAccessToken();
+        const refreshToken=user.generateRefreshToken();
+        user.refreshToken=refreshToken;
+        await user.save({validateBeforeSave:false});
+        return {accessToken,refreshToken};
+    }catch(error){
+        throw new Error("Something went wrong while generating access and refresh tokens");
+    }
+}
 
 export const getUser=async(req,res)=>{
     try{
@@ -13,14 +27,16 @@ export const getUser=async(req,res)=>{
     }
 }
 
+//////REGISTER USER
+
 export const registerUser=async(req,res)=>{
     try {
         // get user details fromm frontend
-    const {name,email,password}=req.body;
+    const {username,email,password}=req.body;
     console.log(req.body);
     // console.log(name);
     if (
-        !name || !email || !password
+        !username || !email || !password
     ) {
         throw new Error("All fields are required");
     }
@@ -38,7 +54,7 @@ export const registerUser=async(req,res)=>{
     const avatar=await uploadOnCloudinary(avatarLocalPath);
     console.log(avatar)
     const user=await User.create({
-        name,
+        username,
         avatar:avatar.url,
         email,
         password
@@ -56,6 +72,90 @@ export const registerUser=async(req,res)=>{
         message:"User created successfully",
         user:createdUser
     })
+
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+
+////LOGIN USER
+
+export const loginUser=async(req,res)=>{
+    try {
+
+        //Take input
+    const {email,username,password}=req.body
+    console.log(email);
+    if(!(username || email)){
+        throw new Error("Username or email is required")
+    }
+
+    //Find the User
+    const user = await User.findOne({
+        email:email
+    })
+
+    if(!user){
+        throw new Error("User does not exist")
+    }
+
+    //check Password
+    const isPasswordValid=await user.isPasswordCorrect(password)
+    if(!isPasswordValid){
+        throw new Error("Incorrect Password");
+    }
+
+    //access token and refresh token
+    const{accessToken,refreshToken}=await generateAccessAndRefreshTokens(user._id);
+
+    const loggdinUser=await User.findById(user._id).select("-password -refreshToken");
+    //send cookie
+    const options={
+        httpOnly:true,
+        secure:true
+    }
+    return res
+    .status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+            {
+                message:"User logged in Successfully",
+                user: loggdinUser,
+            }
+        )
+
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const logoutUser=async(req,res)=>{
+    try {
+
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $set:{
+                    refreshToken:undefined
+                }
+            },
+            {
+                new:true
+            }
+        )
+        const options={
+            httpOnly:true,
+            secure:true
+        }
+        return res
+        .status(200)
+        .clearCookie("accessToken",options)
+        .clearCookie("refreshToken",options)
+        .json({
+            message:"Logout successful"
+        })
 
     } catch (error) {
         res.status(404).json({message: error.message})

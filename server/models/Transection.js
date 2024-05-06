@@ -3,9 +3,13 @@ import mongoose from "mongoose";
 
 const TransectionSchema=new mongoose.Schema(
     {
-        userId:{
+        user:{
             type:mongoose.Types.ObjectId,
             ref:"User",
+            required:true,
+        },
+        tnxId:{
+            type:String,
             required:true,
         },
         cost:{
@@ -17,7 +21,27 @@ const TransectionSchema=new mongoose.Schema(
                 type:mongoose.Types.ObjectId,
                 ref:"Product"
             }
-        ]
+        ],
+        customerName:{
+            type:String,
+            required:true,
+        },
+        customerPhone:{
+            type:String,
+            required:true,
+        },
+        customerCountry:{
+            type:String,
+            required:true,
+        },
+        customerEmail:{
+            type:String,
+            required:true,
+        },
+        customerOccupation:{
+            type:String,
+            required:true,
+        }
     },
     {timestamps:true}
 )

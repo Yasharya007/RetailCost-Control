@@ -36,7 +36,7 @@ app.use(cookieParser())
 app.use("/client",clientRoutes);
 app.use("/general",generalRoutes);
 app.use("/management",managementRoutes);
-app.use("/sales",salesRoutes);
+app.use("/sales",salesRoutes); 
 
 // MONGOOSE SETUP
 

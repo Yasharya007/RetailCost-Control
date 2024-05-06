@@ -52,7 +52,7 @@ export const getTransactions=async(req,res)=>{
         const transactions=await Transection.find({
             $or:[
                 {cost :{$regex:new RegExp(search,"i")}},
-                {userId:{$regex:new RegExp(search,"i")}}
+                // {userId:{$regex:new RegExp(search,"i")}}
             ]
         })
         .sort(sortFormat).skip(page*pageSize).limit(pageSize);

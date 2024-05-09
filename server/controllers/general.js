@@ -66,6 +66,24 @@ export const registerUser=async(req,res)=>{
     if(!createdUser){
         throw new Error("Something went wrong while creating user")
     }
+    const OverallStatuser=await OverallStat.create({
+        userId:createdUser._id,
+        totalCustomers:0,
+        yearlySalesTotal:0,
+        yearlyTotalSoldUnits:0,
+        year:2024,
+        monthlyData:[],
+        dailyData:[],
+        salesByCategory:{
+            shoes:0,
+            clothing:0,
+            accessories:0,
+            misc:0,
+        }
+    })
+    if(!OverallStatuser){
+        throw new Error("Something went wrong while creating Overallstat of user");
+    }
     res.status(200).json({
         message:"User created successfully",
         user:createdUser

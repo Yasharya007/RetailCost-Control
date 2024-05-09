@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Transection from "../models/Transection.js";
 import Product from "../models/Product.js";
 import ProductStat from "../models/ProductStat.js";
+import OverallStat from "../models/OverallStat.js";
 export const addTransaction=async(req,res)=>{
     try {
 
@@ -24,16 +25,19 @@ export const addTransaction=async(req,res)=>{
             tnxId
         })
         if(!transaction)throw new Error("transaction could not be created")
+
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            //PRODUCT STAT UPDATE..............................................................................................
             products.forEach(async(id)=>{
                 const product=await Product.findOne({_id:id});
                 if(!product)throw new Error("Product not found");
                 let price=product.price;
-                console.log(product.price);
+                // console.log(product.price);
                 const productStat=await ProductStat.findOne({productId:id});
                 if(!productStat)throw new Error("Productstat not found")
                 productStat.yearlySalesTotal+=price;
                 productStat.yearlyTotalSoldUnits+=1;
-                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 let monthpres=false;
                 productStat.monthlyData.forEach((obj)=>{
                     if(obj.month===months[new Date(date).getMonth()]){
@@ -67,6 +71,49 @@ export const addTransaction=async(req,res)=>{
                 await productStat.save({validateBeforeSave:false});
 
         });
+
+        //OVERALL STAT UPDATE ....................................................................................
+        const overallStat=await OverallStat.findOne({userId:user});
+        if(!overallStat){
+            throw new Error("overall stat data cannot be fatched");
+        }
+        overallStat.totalCustomers++;
+        overallStat.yearlySalesTotal+=cost;
+        overallStat.yearlyTotalSoldUnits+=products.length;
+
+        let monthpres=false;
+        overallStat.monthlyData.forEach((obj)=>{
+            if(obj.month===months[new Date(date).getMonth()]){
+                obj.totalSales+=cost;
+                obj.totalUnits+=products.length;
+                monthpres=true;
+            }
+        })
+        if(!monthpres){
+            overallStat.monthlyData.push({
+                month:months[new Date(date).getMonth()],
+                totalSales:cost,
+                totalUnits:products.length
+            })
+        }
+        let datepres=false;
+        overallStat.dailyData.forEach((obj)=>{
+            if(obj.date===date){
+                obj.totalSales+=cost;
+                obj.totalUnits+=products.length;
+                datepres=true;
+            }
+        })
+        if(!datepres){
+            overallStat.dailyData.push({
+                date:date,
+                totalSales:cost,
+                totalUnits:products.length
+            })
+        } 
+        await overallStat.save({validateBeforeSave:false});
+
+        // RESPONSE
         res.status(200).json({
             status:'success',
             data:transaction

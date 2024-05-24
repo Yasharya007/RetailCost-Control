@@ -10,6 +10,7 @@ import BreakDownPage from "./pages/BreakDownPage.jsx";
 import AddProductPage from "./pages/AddProductPage.jsx";
 import AddTransactionPage from "./pages/AddTransactionPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/breakdown" element={<BreakDownPage />} />
           <Route path="/addproduct" element={<AddProductPage />} />
           <Route path="/addtransaction" element={<AddTransactionPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
     </>

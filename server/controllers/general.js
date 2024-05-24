@@ -1,14 +1,179 @@
 import User from "../models/User.js";
 import OverallStat from "../models/OverallStat.js";
 import Transection from "../models/Transection.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import jwt from "jsonwebtoken"
 
+const generateAccessAndRefreshTokens=async(userId)=>{
+    try{
+        const user=await User.findById(userId);
+        const accessToken=user.generateAccessToken();
+        const refreshToken=user.generateRefreshToken();
+        user.refreshToken=refreshToken;
+        await user.save({validateBeforeSave:false});
+        return {accessToken,refreshToken};
+    }catch(error){
+        throw new Error("Something went wrong while generating access and refresh tokens");
+    }
+}
 
 export const getUser=async(req,res)=>{
     try{
-        const {id}=req.params;
-        const user=await User.findById(id);
-        res.status(200).json(user);
+        res.status(200).json(req.user);
     }catch(error){
+        res.status(404).json({message: error.message})
+    }
+}
+
+//////REGISTER USER
+
+export const registerUser=async(req,res)=>{
+    try {
+        // get user details fromm frontend
+    const {username,email,password}=req.body;
+    console.log(req.body);
+    // console.log(name);
+    if (
+        !username || !email || !password
+    ) {
+        throw new Error("All fields are required");
+    }
+
+    const existedUser=await User.findOne({
+        $or:[{email}]
+    })
+    if(existedUser){throw new Error("User exist");}
+
+    const avatarLocalPath=req.files?.avatar[0]?.path;
+    console.log(avatarLocalPath)
+    if(!avatarLocalPath)throw new Error("Avatar file is req");
+
+    // upload them to cloudinary
+    const avatar=await uploadOnCloudinary(avatarLocalPath);
+    console.log(avatar)
+    const user=await User.create({
+        username,
+        avatar:avatar.url,
+        email,
+        password
+     })
+
+     const createdUser= await User.findById(user._id).select(
+        "-password -refreshToken"
+    );
+
+    // check for user creation
+    if(!createdUser){
+        throw new Error("Something went wrong while creating user")
+    }
+    const OverallStatuser=await OverallStat.create({
+        userId:createdUser._id,
+        totalCustomers:0,
+        yearlySalesTotal:0,
+        yearlyTotalSoldUnits:0,
+        year:2024,
+        monthlyData:[],
+        dailyData:[],
+        salesByCategory:{
+            shoes:0,
+            clothing:0,
+            accessories:0,
+            misc:0,
+        }
+    })
+    if(!OverallStatuser){
+        throw new Error("Something went wrong while creating Overallstat of user");
+    }
+    res.status(200).json({
+        message:"User created successfully",
+        user:createdUser
+    })
+
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+
+////LOGIN USER
+
+export const loginUser=async(req,res)=>{
+    try {
+
+        //Take input
+    const {email,username,password}=req.body
+    console.log(email);
+    if(!(username || email)){
+        throw new Error("Username or email is required")
+    }
+
+    //Find the User
+    const user = await User.findOne({
+        email:email
+    })
+
+    if(!user){
+        throw new Error("User does not exist")
+    }
+
+    //check Password
+    const isPasswordValid=await user.isPasswordCorrect(password)
+    if(!isPasswordValid){
+        throw new Error("Incorrect Password");
+    }
+
+    //access token and refresh token
+    const{accessToken,refreshToken}=await generateAccessAndRefreshTokens(user._id);
+
+    const loggdinUser=await User.findById(user._id).select("-password -refreshToken");
+    //send cookie
+    const options={
+        httpOnly:true,
+        secure:true
+    }
+    return res
+    .status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+            {
+                message:"User logged in Successfully",
+                user: loggdinUser,
+            }
+        )
+
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const logoutUser=async(req,res)=>{
+    try {
+
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $set:{
+                    refreshToken:undefined
+                }
+            },
+            {
+                new:true
+            }
+        )
+        const options={
+            httpOnly:true,
+            secure:true
+        }
+        return res
+        .status(200)
+        .clearCookie("accessToken",options)
+        .clearCookie("refreshToken",options)
+        .json({
+            message:"Logout successful"
+        })
+
+    } catch (error) {
         res.status(404).json({message: error.message})
     }
 }

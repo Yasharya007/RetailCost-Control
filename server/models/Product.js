@@ -7,6 +7,11 @@ const ProductSchema=new mongoose.Schema(
             type:String,
             required:true,
         },
+        userId:{
+            type:mongoose.Types.ObjectId,
+            ref:"User",
+            required:true,
+        },
         price:{
             type:Number,
             required:true,
@@ -17,9 +22,6 @@ const ProductSchema=new mongoose.Schema(
         },
         category:{
             type:String,
-        },
-        rating:{
-            type:Number,
         },
         supply:{
             type:Number,

@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 
 const OverallStatSchema=new mongoose.Schema(
     {
+        userId:{
+            type:mongoose.Types.ObjectId,
+            ref:"User"
+        },
         totalCustomers:Number,
         yearlySalesTotal:Number,
         yearlyTotalSoldUnits:Number,

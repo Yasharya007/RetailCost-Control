@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const ProductStatSchema=new mongoose.Schema(
     {
         productId:{
-            type:String,
+            type:mongoose.Types.ObjectId,
+            ref:"Product",
             required:true,
             //Reference of Product schema
         },

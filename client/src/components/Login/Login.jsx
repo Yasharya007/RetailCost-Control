@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,7 +24,34 @@ const Login = () => {
     });
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async() => {
+    if (
+      loginUserData.email === "" ||
+      loginUserData.password === ""
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
+    const toastId = toast.loading("Loading ...");
+    axios
+      .post("http://localhost:8000/general/login",loginUserData,{ withCredentials: true })
+      .then((response) => {
+        console.log(response);
+        toast.success("Login Successfully");
+        navigate("/dashboard");
+        // console.log("GAYA to thha")
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.request.response);
+        toast.error("Error while login");
+        console.log(error.request.response);
+      })
+      .finally(() => {
+        toast.dismiss(toastId);
+      });
+
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center w-full">

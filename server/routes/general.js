@@ -2,7 +2,7 @@ import express from "express";
 import { upload } from "../middleware/multer.js";
 import {getUser,getDashboardStats,registerUser,loginUser,logoutUser} from "../controllers/general.js";
 import { verifyJWT } from "../middleware/auth.js";
-
+import cookieParser from "cookie-parser";
 const router =express.Router();
 
 
@@ -15,7 +15,7 @@ upload.fields([
     ])
 ,registerUser)
 router.post("/login",upload.none(),loginUser);
-router.post("/logout",verifyJWT,logoutUser);
+router.post("/logout",cookieParser(),verifyJWT,logoutUser);
 router.get("/user",verifyJWT,getUser);
 router.get("/dashboard",getDashboardStats);
 export default router;

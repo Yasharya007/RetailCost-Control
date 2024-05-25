@@ -108,6 +108,7 @@ function RegisterForm() {
           confirmPassword: "",
           avatar: "",
         });
+        navigate("/login");
         // console.log("GAYA to thha")
       })
       .catch((error) => {

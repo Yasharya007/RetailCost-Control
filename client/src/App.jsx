@@ -18,7 +18,7 @@ function App() {
     <>
       <div id="dashboard" className="flex">
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/" element={<LoginPage/>} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/customer" element={<CustomerPage />} />

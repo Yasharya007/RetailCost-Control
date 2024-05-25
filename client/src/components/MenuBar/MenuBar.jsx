@@ -7,7 +7,8 @@ import { GrView } from "react-icons/gr";
 import { useNavigate,useLocation } from 'react-router-dom';
 import { BiSolidCartAdd } from "react-icons/bi";
 import { GrMoney } from "react-icons/gr";
-
+import axios from 'axios';
+import { toast } from "react-hot-toast";
 
 
 const menuBar = () => {
@@ -15,7 +16,26 @@ const menuBar = () => {
     const location = useLocation();
     const currentPath = location.pathname;
     // console.log(currentPath);
-  
+  const performlogout=async()=>{
+    const toastId = toast.loading("Loading ...");
+    axios
+      .post("http://localhost:8000/general/logout",{ withCredentials: true })
+      .then((response) => {
+        console.log(response);
+        toast.success("User logout Successfully");
+        navigate("/login");
+        // console.log("GAYA to thha")
+      })
+      .catch((error) => {
+        console.log(error);
+        // toast.error(error.request.response);
+        toast.error("Error while logout");
+        console.log(error.request.response);
+      })
+      .finally(() => {
+        toast.dismiss(toastId);
+      });
+  }
 
   return (
     <div className={`h-screen w-60 bg-blue-950 text-white pt-10 z-10`}>
@@ -91,6 +111,10 @@ const menuBar = () => {
         <div className={`performance flex cursor-pointer p-2 pl-10 ${currentPath === '/addtransaction' ? ' bg-yellow-400 text-black' : ''}`} onClick={() => navigate("/addtransaction")}>
           <GrMoney className='mt-0.5 mr-10'/>
           <h3 className='text-sm'> Add Transaction</h3>
+        </div>
+        <div className={`performance flex cursor-pointer p-2 pl-10 ${currentPath === '/logout' ? ' bg-yellow-400 text-black' : ''}`} onClick={performlogout}>
+          <GrMoney className='mt-0.5 mr-10'/>
+          <h3 className='text-sm'> Logout</h3>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import OverallStat from "../models/OverallStat.js";
 import Transection from "../models/Transection.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken"
-
+import cookieParser from "cookie-parser";
 const generateAccessAndRefreshTokens=async(userId)=>{
     try{
         const user=await User.findById(userId);
@@ -124,7 +124,8 @@ export const loginUser=async(req,res)=>{
 
     //access token and refresh token
     const{accessToken,refreshToken}=await generateAccessAndRefreshTokens(user._id);
-
+    if(!accessToken)throw new Error("token could not generated")
+        console.log(accessToken);
     const loggdinUser=await User.findById(user._id).select("-password -refreshToken");
     //send cookie
     const options={
@@ -149,7 +150,7 @@ export const loginUser=async(req,res)=>{
 
 export const logoutUser=async(req,res)=>{
     try {
-
+        console.log("sjdk");
         await User.findByIdAndUpdate(
             req.user._id,
             {
@@ -174,6 +175,7 @@ export const logoutUser=async(req,res)=>{
         })
 
     } catch (error) {
+        console.log("sjdk");
         res.status(404).json({message: error.message})
     }
 }

@@ -11,6 +11,7 @@ import AddProductPage from "./pages/AddProductPage.jsx";
 import AddTransactionPage from "./pages/AddTransactionPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/addproduct" element={<AddProductPage />} />
           <Route path="/addtransaction" element={<AddTransactionPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </>

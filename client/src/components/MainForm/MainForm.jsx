@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [userData, setUserData] = useState({
     city: "",
@@ -13,11 +15,6 @@ function RegisterForm() {
     password: "",
     confirmPassword: "",
     avatar: "",
-  });
-
-  const [loginUserData, setLoginUserData] = useState({
-    email: "",
-    password: "",
   });
 
   let handdleNameChange = (e) => {
@@ -124,29 +121,11 @@ function RegisterForm() {
       });
   };
 
-  const handleLoginEmail = (e) => {
-    // console.log(loginUserData);
-    setLoginUserData((prev) => {
-      return { ...prev, email: e.target.value };
-    });
-  }
-  
-  const handleLoginPassword = (e) => {
-    // console.log(loginUserData);
-    setLoginUserData((prev) => {
-      return { ...prev, password: e.target.value };
-    });
-  }
-
-  const handleLogin = () => {
-
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="bg-white p-8 rounded-lg w-full max-w-md relative overflow-hidden">
         <h2 className="text-2xl font-bold mb-3 text-center">
-          {step === 3 ? "Login your Account" : "Create an Account"}
+          Create an Account
         </h2>
 
         <div className={`step ${step === 1 ? "" : "hidden"}`}>
@@ -228,9 +207,7 @@ function RegisterForm() {
               Already have account ?{" "}
               <span
                 className="text-blue-500 cursor-pointer hover:text-blue-700 hover:font-semibold"
-                onClick={() => {
-                  setStep(3);
-                }}
+                onClick={() => navigate("/login")}
               >
                 Login
               </span>
@@ -239,10 +216,6 @@ function RegisterForm() {
         </div>
         <div className={`step ${step === 2 ? "" : "hidden"}`}>
           <div className="space-y-4">
-            {/* <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-              <input type="text" id="username" name="username" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-            </div> */}
             <div>
               <label
                 htmlFor="email"
@@ -327,68 +300,9 @@ function RegisterForm() {
               Already have account ?{" "}
               <span
                 className="text-blue-500 cursor-pointer hover:text-blue-700 hover:font-semibold"
-                onClick={() => {
-                  setStep(3);
-                }}
+                onClick={() => navigate("/login")}
               >
                 Login
-              </span>
-            </p>
-          </div>
-        </div>
-
-        <div className={`step ${step === 3 ? "" : "hidden"}`}>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={loginUserData.email}
-                onChange={handleLoginEmail}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={loginUserData.password}
-                onChange={handleLoginPassword}
-              />
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={handleLogin}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign In
-              </button>
-            </div>
-            <p className=" text-base mb-6 text-center">
-              Didn't have account ?{" "}
-              <span
-                className="text-blue-500 cursor-pointer hover:text-blue-700 hover:font-semibold"
-                onClick={() => {
-                  setStep(1);
-                }}
-              >
-                Register
               </span>
             </p>
           </div>

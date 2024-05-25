@@ -16,6 +16,6 @@ upload.fields([
 ,registerUser)
 router.post("/login",upload.none(),loginUser);
 router.post("/logout",cookieParser(),verifyJWT,logoutUser);
-router.get("/user",verifyJWT,getUser);
-router.get("/dashboard",getDashboardStats);
+router.get("/auth",verifyJWT,getUser);
+router.get("/dashboard",verifyJWT,getDashboardStats);
 export default router;

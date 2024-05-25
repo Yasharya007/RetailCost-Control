@@ -17,9 +17,9 @@ const menuBar = () => {
     const currentPath = location.pathname;
     // console.log(currentPath);
   const performlogout=async()=>{
-    const toastId = toast.loading("Loading ...");
+    const toastId = toast.loading("Login out...");
     axios
-      .post("http://localhost:8000/general/logout",{ withCredentials: true })
+      .post("http://localhost:8000/general/logout",{},{withCredentials:true})
       .then((response) => {
         console.log(response);
         toast.success("User logout Successfully");

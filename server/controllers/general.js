@@ -125,7 +125,7 @@ export const loginUser=async(req,res)=>{
     //access token and refresh token
     const{accessToken,refreshToken}=await generateAccessAndRefreshTokens(user._id);
     if(!accessToken)throw new Error("token could not generated")
-        console.log(accessToken);
+        // console.log(accessToken);
     const loggdinUser=await User.findById(user._id).select("-password -refreshToken");
     //send cookie
     const options={
@@ -150,7 +150,8 @@ export const loginUser=async(req,res)=>{
 
 export const logoutUser=async(req,res)=>{
     try {
-        console.log("sjdk");
+        // console.log("sjdk");
+        if(req.user==="")throw new Error("Invalid token access before logout controller")
         await User.findByIdAndUpdate(
             req.user._id,
             {
@@ -214,7 +215,8 @@ export const getDashboardStats=async(req,res)=>{
             salesByCategory,
             thismonthstat,
             todaystat,
-            transactions
+            transactions,
+            user:req.user
         })
 
     } catch (error) {

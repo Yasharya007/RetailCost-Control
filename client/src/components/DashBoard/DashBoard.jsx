@@ -5,8 +5,11 @@ import Overview from "../Overview/Overview.jsx";
 import BreakDown from "../BreakDown/BreakDown.jsx";
 import { RiDownload2Fill } from "react-icons/ri";
 import { CSVLink } from "react-csv";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function DashBoard() {
+  const nevigate=useNavigate();
   const [data, setdata] = useState({
     todaystat:{
       totalSales:0
@@ -21,14 +24,20 @@ function DashBoard() {
   // const [todaysale,settoday]=useState(0);
   function getdata() {
     axios
-      .get("http://localhost:8000/general/dashboard")
+      .get("http://localhost:8000/general/dashboard",{withCredentials:true})
       .then((resoponse) => {
         console.log(resoponse.data);
+        if(resoponse.data.user===""){
+          toast.error("login first");
+          nevigate("/login");
+        }
         // settoday(resoponse.data.todaystat.totalSales);
         setdata(resoponse.data);
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Please login again")
+        nevigate("/login")
       });
   }
   useEffect(getdata, []);

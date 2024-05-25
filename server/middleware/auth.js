@@ -8,7 +8,7 @@ dotenv.config({
 export const verifyJWT=async(req,res,next)=>{
     try {
         const token=req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","");
-        console.log("cookie is ",req.cookies);
+        // console.log("cookie is ",req.cookies);
         
         if(!token){
             throw new Error("Unauthorized request");
@@ -18,12 +18,13 @@ export const verifyJWT=async(req,res,next)=>{
     
         const user=await User.findById(decodedToken?._id).select("-password -refreshToken")
         if(!user){
-            throw new Error("Invalid access Token")
+            throw new Error("User not found");
         }
     
         req.user=user;
         next();
     } catch (error) {
-        throw new Error("Invalid Access token")
+        req.user="";
+        next();
     }
 }

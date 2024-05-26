@@ -30,10 +30,10 @@ export const addTransaction=async(req,res)=>{
 
             //PRODUCT STAT UPDATE..............................................................................................
             let salesCategory= {
-                shoes:0,
-                clothing:0,
-                accessories:0,
-                misc:0,
+                'shoes':0,
+                'clothing':0,
+                'accessories':0,
+                'misc':0,
               }
             products.forEach(async(id)=>{
                 const product=await Product.findOne({_id:id});

@@ -46,12 +46,12 @@ function Customer() {
                   className="flex font-normal pl-2 pt-2 pb-2 hover:bg-slate-400"
                   key={index}
                 >
-                  <td className="w-60 text-left">{obj._id}</td>
-                  <td className="w-40 text-left">{obj.name}</td>
-                  <td className="w-56 text-left">{obj.email}</td>
-                  <td className="w-40 text-left">{obj.phoneNumber}</td>
-                  <td className="w-28 text-left">{obj.country}</td>
-                  <td className="w-52 text-left">{obj.occupation}</td>
+                  <td className="w-60 text-left">{obj.tnxId}</td>
+                  <td className="w-40 text-left">{obj.customerName}</td>
+                  <td className="w-56 text-left">{obj.customerEmail}</td>
+                  <td className="w-40 text-left">{obj.customerPhone}</td>
+                  <td className="w-28 text-left">{obj.customerCountry}</td>
+                  <td className="w-52 text-left">{obj.customerOccupation}</td>
                   <td className="w-28 text-left">{obj.role}</td>
                 </tr>
               ))}

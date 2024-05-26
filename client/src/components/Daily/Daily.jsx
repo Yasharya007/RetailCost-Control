@@ -12,8 +12,8 @@ function Daily(){
     const nevigate=useNavigate();
     // const [salesLine,setSalesLine]=useState([]);
     const[line,setLine]=useState([]);
-    const[startDate,setStartDate]=useState(new Date("2021-01-01"));
-    const[endDate,setEndDate]=useState(new Date("2021-02-01"));
+    const[startDate,setStartDate]=useState(new Date("2024-05-01"));
+    const[endDate,setEndDate]=useState(new Date("2024-06-01"));
     function getdata(){
         axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
     .then((response)=>{
@@ -71,11 +71,11 @@ function Daily(){
         });
         info.data=myData;
         info2.data=myDataunit;
-        console.log(info);
+        // console.log("info is",info);
         setLine([info,info2]);
     }
     useEffect(getdata,[]);
-    useEffect(printGraph,[startDate,endDate,line])
+    useEffect(printGraph,[startDate,endDate,statdata])
     return(
         <>
         <Header heading="DAILY SALES" des="Get your daily sales data"/>    

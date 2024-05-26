@@ -84,8 +84,8 @@ const Transactions = () => {
       {data.length > 0 ? (
         <>
           <div className=" pl-5 flex font-normal text-white pt-4 h-12 ml-5 mr-5  text-xs">
-            <div className="w-56 text-left">ID</div>
-            <div className="w-56 text-left">User ID</div>
+            <div className="w-56 text-left">Tnx ID</div>
+            <div className="w-56 text-left">Email</div>
             <div className="w-56 text-left">Created At</div>
             <div className="w-32 text-left">No of Product</div>
             <div className="w-20 text-left flex cursor-pointer" onClick={handle_cost}>Cost <MdKeyboardArrowDown className="text-lg ml-2"/></div>
@@ -100,8 +100,8 @@ const Transactions = () => {
                     className="flex font-normal pl-2 pt-2 pb-2 hover:bg-slate-400"
                     key={index}
                   >
-                    <td className="w-56 text-left pl-3">{obj._id}</td>
-                    <td className="w-56 text-left pl-3">{obj.userId}</td>
+                    <td className="w-56 text-left pl-3">{obj.tnxId}</td>
+                    <td className="w-56 text-left pl-3">{obj.customerEmail}</td>
                     <td className="w-56 text-left pl-3">{obj.createdAt}</td>
                     <td className="w-32 text-left pl-3">
                       {obj.products.length}

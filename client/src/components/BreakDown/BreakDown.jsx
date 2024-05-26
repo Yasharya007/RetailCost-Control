@@ -4,9 +4,12 @@ import axios from "axios";
 import Header from "../Header/Header.jsx";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as Chartjs, Tooltip, Legend, ArcElement} from 'chart.js';
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 Chartjs.register(Tooltip, Legend ,ArcElement);
 const BreakDown = ({dashboard=false}) => {
+  const nevigate=useNavigate();
   const [categoryData,setCategoryData]=useState({
     shoes:0, 
     clothing: 0, 
@@ -15,10 +18,14 @@ const BreakDown = ({dashboard=false}) => {
   })
   const option = {};
   function getdata(){
-    axios.get("http://localhost:8000/sales/sales")
+    axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
 .then((response)=>{
      //console.log(response.data.salesByCategory);
-    setCategoryData(response.data.salesByCategory);
+     if(response.data.user===""){
+      toast.error("login first");
+      nevigate("/login");
+    }
+    setCategoryData(response.data.stat.salesByCategory);
 }).catch((error)=>{
     console.log(error);
 })

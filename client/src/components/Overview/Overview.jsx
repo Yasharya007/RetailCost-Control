@@ -2,19 +2,25 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function Overview({dashboard=false}){
     // const [statdata,setStatdata]=useState({});
     // const [salesLine,setSalesLine]=useState([]);
+    const nevigate=useNavigate();
     const[salesLinef,setSalesLine]=useState([]);
     const[unitLinef,setUnitLine]=useState([]);
     const[mode,setmode]=useState("sales")
     // console.log(mode);
     function getdata(){
-        axios.get("http://localhost:8000/sales/sales")
+        axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
     .then((response)=>{
         // console.log(response.data);
-
+        if(response.data.user===""){
+            toast.error("login first");
+            nevigate("/login");
+          }
 
         const info =[{
             id:"sales",
@@ -30,7 +36,7 @@ function Overview({dashboard=false}){
         let myDataunit=[]
         let total=0;
         let totalunit=0
-        let recv=response.data.monthlyData;
+        let recv=response.data.stat.monthlyData;
         console.log(recv)
         recv.forEach((element) => {
             total+=element.totalSales;

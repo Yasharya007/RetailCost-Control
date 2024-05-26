@@ -3,9 +3,9 @@ import { getProducts,getCustomers,getTransactions,getGeography} from "../control
 import { verifyJWT } from "../middleware/auth.js";
 const router =express.Router();
 
-router.get("/products",getProducts);
-router.get("/customers",getCustomers);
-router.post("/transactions",getTransactions);
-router.get("/geography",getGeography);
+router.get("/products",verifyJWT,getProducts);
+router.get("/customers",verifyJWT,getCustomers);
+router.post("/transactions",verifyJWT,getTransactions);
+router.get("/geography",verifyJWT,getGeography);
 
 export default router;

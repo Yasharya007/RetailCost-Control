@@ -2,15 +2,22 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function Monthly(){
     // const [statdata,setStatdata]=useState({});
     // const [salesLine,setSalesLine]=useState([]);
+    const nevigate=useNavigate();
     const[Line,setSalesLine]=useState([]);
     function getdata(){
-        axios.get("http://localhost:8000/sales/sales")
+        axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
     .then((response)=>{
         console.log(response.data);
+        if(response.data.user===""){
+            toast.error("login first");
+            nevigate("/login");
+          }
         const info ={
             id:"sales",
             color:"white",
@@ -23,7 +30,7 @@ function Monthly(){
         }
         let myData=[];
         let myDataunit=[]
-        let recv=response.data.monthlyData;
+        let recv=response.data.stat.monthlyData;
         console.log(recv)
         recv.forEach((element) => {
             myData.push({

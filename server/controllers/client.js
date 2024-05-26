@@ -19,7 +19,7 @@ export const getProducts=async(req,res)=>{
             })
         )
 
-        res.status(200).json(productWithStats);
+        res.status(200).json({productWithStats,user:req.user});
     }catch(error){
         res.status(404).json({message: error.message})
     }
@@ -28,7 +28,7 @@ export const getProducts=async(req,res)=>{
 export const getCustomers=async(req,res)=>{
     try {
           const customers=await User.find().select("-password")
-          res.status(200).json(customers);
+          res.status(200).json({customers,user:req.user});
     } catch (error) {
         res.status(404).json({message: error.message})
 
@@ -63,6 +63,7 @@ export const getTransactions=async(req,res)=>{
         res.status(200).json({
             transactions,
             total,
+            user:req.user
         });
         
     } catch (error) {
@@ -88,7 +89,10 @@ export const getGeography=async(req,res)=>{
             }
         );
 
-        res.status(200).json(finalLocations);
+        res.status(200).json({
+            finalLocations,
+            user:req.user
+        });
 
     }catch(error){
         res.status(404).json({message: error.message})

@@ -5,9 +5,12 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { RiDownload2Fill } from "react-icons/ri";
 import { CSVLink } from "react-csv";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Transactions = () => {
   const [data, setdata] = useState([]);
+  const nevigate=useNavigate();
   const [queries, setQueries] = useState({
     page: 0,
     sort: {
@@ -19,9 +22,13 @@ const Transactions = () => {
 
   function getdata() {
     axios
-      .post("http://localhost:8000/client/transactions", queries)
+      .post("http://localhost:8000/client/transactions", queries,{withCredentials:true})
       .then((resoponse) => {
         console.log(resoponse.data.transactions);
+        if(resoponse.data.user===""){
+          toast.error("login first");
+          nevigate("/login");
+        }
         setdata(resoponse.data.transactions);
       })
       .catch((error) => {

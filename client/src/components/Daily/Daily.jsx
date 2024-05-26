@@ -4,18 +4,25 @@ import Header from "../Header/Header.jsx";
 import { ResponsiveLine } from '@nivo/line'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function Daily(){
     const [statdata,setStatdata]=useState([]);
+    const nevigate=useNavigate();
     // const [salesLine,setSalesLine]=useState([]);
     const[line,setLine]=useState([]);
     const[startDate,setStartDate]=useState(new Date("2021-01-01"));
     const[endDate,setEndDate]=useState(new Date("2021-02-01"));
     function getdata(){
-        axios.get("http://localhost:8000/sales/sales")
+        axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
     .then((response)=>{
         console.log(response.data);
-        setStatdata(response.data.dailyData);
+        if(response.data.user===""){
+            toast.error("login first");
+            nevigate("/login");
+          }
+        setStatdata(response.data.stat.dailyData);
     }).catch((error) => {
         console.log(error);
     })

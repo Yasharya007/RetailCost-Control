@@ -1,13 +1,20 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 import Header from "../Header/Header.jsx";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 function Product(){
     const [data,setdata]=useState([]);
+    const nevigate=useNavigate();
     function getdata(){
-        axios.get("http://localhost:8000/client/products")
+        axios.get("http://localhost:8000/client/products",{withCredentials:true})
     .then((resoponse)=>{
-        console.log(resoponse.data);
-        setdata(resoponse.data);
+        console.log(resoponse.data.productWithStats);
+        if(resoponse.data.user===""){
+            toast.error("login first");
+            nevigate("/login");
+          }
+        setdata(resoponse.data.productWithStats);
     }).catch((error)=>{
         console.log(error);
     })

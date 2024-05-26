@@ -5,7 +5,7 @@ import Transection from "../models/Transection.js";
 import getCountryIso3 from "country-iso-2-to-3";
 export const getProducts=async(req,res)=>{
     try{
-        const products=await Product.find();
+        const products=await Product.find({userId:req.user._id});
 
         const productWithStats=await Promise.all(
             products.map(async(product)=>{
@@ -27,7 +27,7 @@ export const getProducts=async(req,res)=>{
 
 export const getCustomers=async(req,res)=>{
     try {
-          const customers=await User.find().select("-password")
+          const customers=await Transection.find({user:req.user._id})
           res.status(200).json({customers,user:req.user});
     } catch (error) {
         res.status(404).json({message: error.message})
@@ -50,10 +50,11 @@ export const getTransactions=async(req,res)=>{
         }
         const sortFormat=sort?generateSort():{};
         const transactions=await Transection.find({
-            $or:[
-                {cost :{$regex:new RegExp(search,"i")}},
-                // {userId:{$regex:new RegExp(search,"i")}}
-            ]
+            user:req.user._id,
+            // $or:[
+            //     {cost :{$regex:new RegExp(search,"i")}},
+            //     // {userId:{$regex:new RegExp(search,"i")}}
+            // ]
         })
         .sort(sortFormat).skip(page*pageSize).limit(pageSize);
         const total=await Transection.countDocuments({

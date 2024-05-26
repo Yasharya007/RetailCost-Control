@@ -13,7 +13,7 @@ const TransectionSchema=new mongoose.Schema(
             required:true,
         },
         cost:{
-            type:String,
+            type:Number,
             required:true,
         },
         products:[

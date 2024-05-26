@@ -20,7 +20,7 @@ const BreakDown = ({dashboard=false}) => {
   function getdata(){
     axios.get("http://localhost:8000/sales/sales",{withCredentials:true})
 .then((response)=>{
-     //console.log(response.data.salesByCategory);
+     console.log(response.data.stat.salesByCategory);
      if(response.data.user===""){
       toast.error("login first");
       nevigate("/login");

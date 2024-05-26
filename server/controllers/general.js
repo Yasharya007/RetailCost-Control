@@ -184,12 +184,14 @@ export const logoutUser=async(req,res)=>{
 export const getDashboardStats=async(req,res)=>{
     try {
         const cmonth="November";
-        const cyear=2021;
-        const cday="2021-11-15"
+        const cyear=2024;
+        const cday="2024-11-15"
+        // if(req.user===""){
+        //     throw new Error("login pls")
+        // }
+        const transactions=await Transection.find({user:req.user._id}).limit(50).sort({createdOn:-1});
 
-        const transactions=await Transection.find().limit(50).sort({createdOn:-1});
-
-        const overallStat=await OverallStat.find({year:cyear})
+        const overallStat=await OverallStat.find({userId:req.user._id})
 
         const {
             totalCustomers,
@@ -198,14 +200,25 @@ export const getDashboardStats=async(req,res)=>{
             monthlyData,
             salesByCategory
         }=overallStat[0]
-
-        const thismonthstat=overallStat[0].monthlyData.find(({month})=>{
+        
+        let thismonthstat=overallStat[0].monthlyData.find(({month})=>{
             return month===cmonth;
         })
-
-        const todaystat=overallStat[0].dailyData.find(({date})=>{
+        if(!thismonthstat){
+            thismonthstat={
+                month:cmonth,
+                totalSales:0,
+                totalUnits:0,
+                }
+        }
+        let todaystat=overallStat[0].dailyData.find(({date})=>{
             return date===cday;
         })
+        if(!todaystat){
+            todaystat={
+             date: cday, totalSales:0, totalUnits:0
+            }
+        }
 
         res.status(200).json({
             totalCustomers,
@@ -220,6 +233,6 @@ export const getDashboardStats=async(req,res)=>{
         })
 
     } catch (error) {
-        res.status(404).json({message: error.message})
+        res.status(404).json({message:"pta nhi",user:req.user})
     }
 }

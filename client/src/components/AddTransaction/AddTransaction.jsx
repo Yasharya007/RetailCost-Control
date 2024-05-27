@@ -170,7 +170,7 @@ const AddTransaction = () => {
                     required
                   /> */}
 
-                  <SelectorInput value={transaction.customerCountry} />
+                  <SelectorInput setfunction={setTransaction} />
                 </div>
               </div>
 

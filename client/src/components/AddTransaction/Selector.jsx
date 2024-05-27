@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { Country } from "country-state-city";
 
 
 const country = Country.getAllCountries();
 
-nsole.log(country);
+console.log(country);
 
-function SelectorInput() {
+function SelectorInput({setfunction}) {
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [query, setQuery] = useState("");
 
@@ -18,6 +18,12 @@ function SelectorInput() {
           person.name.toLowerCase().includes(query.toLowerCase())
         );
 
+        useEffect(()=>{
+          setfunction((prev)=>({
+            ...prev,
+            customerCountry:selectedPerson?.isoCode
+          }))
+        },[selectedPerson])
   return (
     <div className="text-black">
       <Combobox value={selectedPerson} onChange={setSelectedPerson}>

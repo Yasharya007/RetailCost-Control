@@ -74,9 +74,9 @@ export const getTransactions=async(req,res)=>{
 
 export const getGeography=async(req,res)=>{
     try{
-        const users=await User.find();
-        const loactions=users.reduce((acc,{country})=>{
-            const cntcode=getCountryIso3(country);
+        const users=await Transection.find({user:req.user._id});
+        const loactions=users.reduce((acc,{customerCountry})=>{
+            const cntcode=getCountryIso3(customerCountry);
             if(!acc[cntcode]){
                 acc[cntcode]=0;
             }

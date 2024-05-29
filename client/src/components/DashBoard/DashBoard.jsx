@@ -100,7 +100,7 @@ function DashBoard() {
             <div className="leftLower mr-3 h-full w-[65%] bg-blue-950 rounded-lg">
             <div className=" pl-5 flex font-normal text-white pt-4 h-12 ml-5 mr-5  text-xs">
             <div className="w-52 text-left">ID</div>
-            <div className="w-52 text-left">User ID</div>
+            <div className="w-52 text-left">Tnx Id</div>
             <div className="w-52 text-left">Created At</div>
             <div className="w-32 text-left">No of Product</div>
             <div className="w-20 text-left flex cursor-pointer">Cost</div>
@@ -115,7 +115,7 @@ function DashBoard() {
                     key={index}
                   >
                     <td className="w-52 text-left pl-3">{obj._id}</td>
-                    <td className=" w-52 text-left pl-3">{obj.userId}</td>
+                    <td className=" w-52 text-left pl-3">{obj.tnxId}</td>
                     <td className="w-52 text-left pl-3">{obj.createdAt}</td>
                     <td className="w-20 text-left pl-3">
                       {obj.products.length}

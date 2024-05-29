@@ -183,9 +183,9 @@ export const logoutUser=async(req,res)=>{
 
 export const getDashboardStats=async(req,res)=>{
     try {
-        const cmonth="November";
+        const cmonth="May";
         const cyear=2024;
-        const cday="2024-11-15"
+        const cday="2024-06-10"
         // if(req.user===""){
         //     throw new Error("login pls")
         // }

@@ -16,7 +16,7 @@ import Product from "./models/Product.js"
 import ProductStat from "./models/ProductStat.js"
 import Transection from "./models/Transection.js"
 import OverallStat from "./models/OverallStat.js"
-import { dataUser,dataProduct,dataProductStat,dataTransaction,dataOverallStat} from "./data/index.js"
+// import { dataUser,dataProduct,dataProductStat,dataTransaction,dataOverallStat} from "./data/index.js"
 
 // CONFIGURATION
 dotenv.config({

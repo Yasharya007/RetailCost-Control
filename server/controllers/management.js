@@ -87,12 +87,12 @@ export const addTransaction=async(req,res)=>{
         overallStat.totalCustomers++;
         overallStat.yearlySalesTotal+=Number(cost);
         overallStat.yearlyTotalSoldUnits+=products.length;
-        console.log(salesCategory);
+        // console.log(salesCategory);
         overallStat.salesByCategory.set('shoes',overallStat.salesByCategory.get('shoes')+Number(salesCategory.shoes))
         overallStat.salesByCategory.set('clothing',overallStat.salesByCategory.get('clothing')+Number(salesCategory.clothing))
         overallStat.salesByCategory.set('accessories',overallStat.salesByCategory.get('accessories')+Number(salesCategory.accessories))
         overallStat.salesByCategory.set('misc',overallStat.salesByCategory.get('misc')+Number(salesCategory.misc))
-        console.log(overallStat.salesByCategory);
+        // console.log(overallStat.salesByCategory);
 
         let monthpres=false;
         overallStat.monthlyData.forEach((obj)=>{
@@ -141,7 +141,7 @@ export const addTransaction=async(req,res)=>{
 
 export const addProduct=async(req,res)=>{
     try {
-        console.log("Hi")
+        // console.log("Hi")
         const {name,price,description,category}=req.body;
         if(!name || !price || !description || !category){
             throw new Error("Al details are required of product");

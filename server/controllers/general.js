@@ -4,6 +4,13 @@ import Transection from "../models/Transection.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken"
 import cookieParser from "cookie-parser";
+import nodemailer from "nodemailer"
+import otpGenerator from "otp-generator"
+import dotenv from "dotenv"
+dotenv.config({
+  path:'./.env'
+})
+
 const generateAccessAndRefreshTokens=async(userId)=>{
     try{
         const user=await User.findById(userId);
@@ -30,11 +37,11 @@ export const getUser=async(req,res)=>{
 export const registerUser=async(req,res)=>{
     try {
         // get user details fromm frontend
-    const {username,email,password}=req.body;
-    console.log(req.body);
+    const {username,email,password,realOTP,inputOTP}=req.body;
+    // console.log(req.body);
     // console.log(name);
     if (
-        !username || !email || !password
+        !username || !email || !password || !realOTP || !inputOTP
     ) {
         throw new Error("All fields are required");
     }
@@ -43,9 +50,11 @@ export const registerUser=async(req,res)=>{
         $or:[{email}]
     })
     if(existedUser){throw new Error("User exist");}
-
+    if(realOTP!==inputOTP){
+        throw new Error("Invalid OTP");
+        }
     const avatarLocalPath=req.files?.avatar[0]?.path;
-    console.log(avatarLocalPath)
+    // console.log(avatarLocalPath)
     if(!avatarLocalPath)throw new Error("Avatar file is req");
 
     // upload them to cloudinary
@@ -102,7 +111,7 @@ export const loginUser=async(req,res)=>{
 
         //Take input
     const {email,username,password}=req.body
-    console.log(email);
+    // console.log(email);
     if(!(username || email)){
         throw new Error("Username or email is required")
     }
@@ -176,7 +185,7 @@ export const logoutUser=async(req,res)=>{
         })
 
     } catch (error) {
-        console.log("sjdk");
+        // console.log("sjdk");
         res.status(404).json({message: error.message})
     }
 }
@@ -234,5 +243,35 @@ export const getDashboardStats=async(req,res)=>{
 
     } catch (error) {
         res.status(404).json({message:"pta nhi",user:req.user})
+    }
+}
+
+export const generateOTP=async(req,res)=>{
+    try {
+        const {email} =req.body;
+        let otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false,
+          });
+        let transporter = nodemailer.createTransport({
+      host:  "smtp.gmail.com",
+      auth: {
+        user: "aryayash404@gmail.com",
+        pass: process.env.GMAIL_PASS,
+      }
+    });
+    // Send emails to users
+    let info = await transporter.sendMail({
+      from: 'Yash Arya',
+      to: email,
+      subject:"RCC- Email verification otp",
+      html: `<h1>Please confirm your OTP</h1>
+      <p>Here is your OTP code: ${otp}</p>`,
+    });
+
+    res.status(200).json(otp);
+    } catch (error) {
+        res.status(404).json({message: error.message})
     }
 }

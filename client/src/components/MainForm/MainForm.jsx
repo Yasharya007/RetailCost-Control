@@ -15,6 +15,8 @@ function RegisterForm() {
     password: "",
     confirmPassword: "",
     avatar: "",
+    inputOTP:"",
+    realOTP:"",
   });
 
   let handdleNameChange = (e) => {
@@ -57,6 +59,11 @@ function RegisterForm() {
       return { ...prev, confirmPassword: e.target.value };
     });
   };
+  let handdleOTPChange = (e) => {
+    setUserData((prev) => {
+      return { ...prev, inputOTP: e.target.value };
+    });
+  };
 
   let handdleAvatarChange = (e) => {
     setUserData((prev) => {
@@ -64,11 +71,35 @@ function RegisterForm() {
     });
   };
 
+
   let handdle = (e) => {
     setUserData((prev) => {
       return { ...prev, avatar: e.target.files[0] };
     });
   };
+
+  const handleOTPgenerate=async()=>{
+    if(userData.email===""){
+      toast.error("Enter email");
+      return;
+    }
+    const toastId = toast.loading("Loading ...");
+    axios.post("http://localhost:8000/general/generateOTP",{email:userData.email})
+    .then((res)=>{
+      // console.log(res);
+      toast.success("OTP sent successfully");
+      toast.dismiss(toastId);
+      setUserData((prev) => {
+        return { ...prev, realOTP: res.data };
+      });
+      setStep(3);
+
+    }).catch((error)=>{
+      console.log(error);
+      toast.error("Failed to send OTP");
+      toast.dismiss(toastId);
+    })
+  }
 
   const registerUser = async () => {
     if (
@@ -76,7 +107,8 @@ function RegisterForm() {
       userData.email === "" ||
       userData.password === "" ||
       userData.phone === "" ||
-      userData.avatar === ""
+      userData.avatar === ""||
+      userData.realOTP=== ""
     ) {
       toast.error("All fields are required");
       return;
@@ -89,6 +121,8 @@ function RegisterForm() {
     formData.append("username", userData.username);
     formData.append("email", userData.email);
     formData.append("password", userData.password);
+    formData.append("inputOTP", userData.inputOTP);
+    formData.append("realOTP", userData.realOTP);
     formData.append("avatar", userData.avatar);
     // console.log(formData);
     // console.log(userData.avatar);
@@ -115,7 +149,18 @@ function RegisterForm() {
         console.log(error);
         toast.error(error.request.response);
         toast.error("Error while creating user");
-        console.log(error.request.response);
+        setUserData({
+          city: "",
+          country: "",
+          phone: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          avatar: "",
+        });
+        setStep(1);
+        // console.log(error.request.response);
       })
       .finally(() => {
         toast.dismiss(toastId);
@@ -285,6 +330,51 @@ function RegisterForm() {
               <button
                 type="button"
                 onClick={() => setStep(1)}
+                className="w-1/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                onClick={handleOTPgenerate}
+                className="w-1/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Send OTP
+              </button>
+            </div>
+            <p className=" text-base mb-6 text-center">
+              Already have account ?{" "}
+              <span
+                className="text-blue-500 cursor-pointer hover:text-blue-700 hover:font-semibold"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className={`step ${step === 3 ? "" : "hidden"}`}>
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Enter OTP send to your mail
+              </label>
+              <input
+                type="number"
+                id="otp"
+                name="otp"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                value={userData.inputOTP}
+                onChange={handdleOTPChange}
+              />
+            </div>
+            <div className="flex justify-between">
+              <button
+                type="button"
+                onClick={() => setStep(2)}
                 className="w-1/3 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
               >
                 Back

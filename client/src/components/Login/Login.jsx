@@ -36,7 +36,7 @@ const Login = () => {
     axios
       .post("http://localhost:8000/general/login",loginUserData,{ withCredentials: true })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         toast.success("Login Successfully");
         navigate("/dashboard");
         // console.log("GAYA to thha")

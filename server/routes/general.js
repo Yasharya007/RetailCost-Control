@@ -1,11 +1,11 @@
 import express from "express";
 import { upload } from "../middleware/multer.js";
-import {getUser,getDashboardStats,registerUser,loginUser,logoutUser} from "../controllers/general.js";
+import {getUser,getDashboardStats,registerUser,loginUser,logoutUser,generateOTP} from "../controllers/general.js";
 import { verifyJWT } from "../middleware/auth.js";
 import cookieParser from "cookie-parser";
 const router =express.Router();
 
-
+router.post("/generateOTP",generateOTP);
 router.post("/register",
 upload.fields([
         {
